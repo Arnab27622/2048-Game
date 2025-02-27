@@ -27,7 +27,7 @@ To get a copy of this project, run:
 
 ```sh
 git clone https://github.com/Arnab27622/2048-Game.git
-cd 2048-python
+cd 2048-Game
 ```
 
 ## Files
