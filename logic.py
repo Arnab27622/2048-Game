@@ -1,7 +1,6 @@
 import random
 
 
-# function to initialize game / grid at the start
 def start_game():
     mat = [[0] * 4 for _ in range(4)]
     print("Commands are as follows : ")
@@ -13,8 +12,6 @@ def start_game():
     return mat
 
 
-# function to add a new 2 in
-# grid at any random empty cell
 def add_new_2(mat):
     empty_cells = [(i, j) for i in range(4) for j in range(4) if mat[i][j] == 0]
     if not empty_cells:
@@ -23,7 +20,6 @@ def add_new_2(mat):
     mat[r][c] = 2
 
 
-# function to get the current state of game
 def get_current_state(mat):
     for row in mat:
         if 2048 in row:
@@ -38,7 +34,6 @@ def get_current_state(mat):
     return "LOST"
 
 
-# function to compress the grid
 def compress(mat):
     new_mat = [[0] * 4 for _ in range(4)]
     changed = False
@@ -53,7 +48,6 @@ def compress(mat):
     return new_mat, changed
 
 
-# function to merge the cells
 def merge(mat):
     changed = False
     for i in range(4):
@@ -65,17 +59,14 @@ def merge(mat):
     return mat, changed
 
 
-# function to reverse the matrix
 def reverse(mat):
     return [row[::-1] for row in mat]
 
 
-# function to get the transpose
 def transpose(mat):
     return [list(row) for row in zip(*mat)]
 
 
-# function to update the matrix
 def move_left(grid):
     new_grid, changed1 = compress(grid)
     new_grid, changed2 = merge(new_grid)
@@ -83,7 +74,6 @@ def move_left(grid):
     return new_grid, changed1 or changed2
 
 
-# function to update the matrix
 def move_right(grid):
     new_grid = reverse(grid)
     new_grid, changed = move_left(new_grid)
@@ -91,7 +81,6 @@ def move_right(grid):
     return new_grid, changed
 
 
-# function to update the matrix
 def move_up(grid):
     new_grid = transpose(grid)
     new_grid, changed = move_left(new_grid)
@@ -99,9 +88,12 @@ def move_up(grid):
     return new_grid, changed
 
 
-# function to update the matrix
 def move_down(grid):
     new_grid = transpose(grid)
     new_grid, changed = move_right(new_grid)
     new_grid = transpose(new_grid)
     return new_grid, changed
+
+
+def calculate_score(mat):
+    return sum(sum(row) for row in mat)

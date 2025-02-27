@@ -1,9 +1,5 @@
-# 2048.py
-
-# importing the logic.py file
-# where we have written all the
-# logic functions used.
 import logic
+import os
 
 
 def handle_move(mat, move_function):
@@ -15,16 +11,30 @@ def handle_move(mat, move_function):
     return mat, status
 
 
+def save_high_score(score):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    high_score_file = os.path.join(script_dir, "highscore.txt")
+
+    if os.path.exists(high_score_file):
+        with open(high_score_file, "r") as file:
+            high_score = int(file.read())
+    else:
+        high_score = 0
+
+    if score > high_score:
+        with open(high_score_file, "w") as file:
+            file.write(str(score))
+        print(f"New high score: {score}")
+    else:
+        print(f"High score: {high_score}")
+
+
 # Driver code
 if __name__ == "__main__":
-
-    # calling start_game function
-    # to initialize the matrix
     mat = logic.start_game()
+    score = 0
 
     while True:
-        # taking the user input
-        # for next step
         x = input("Press the command : ").upper()
 
         if x == "W":
@@ -39,9 +49,11 @@ if __name__ == "__main__":
             print("Invalid Key Pressed")
             continue
 
+        score = logic.calculate_score(mat)
+
         if status != "GAME NOT OVER":
+            save_high_score(score)
             break
 
-        # print the matrix after each move
         for row in mat:
             print(row)
